@@ -8,17 +8,17 @@ class Request:  # экземпляром класса является соед�
         self.logger = logging.getLogger(__name__)
 
     async def add_data(self, user_id, user_name, date):  # добавляем данные в таблицу datausers
-        query = (f"INSERT INTO datausers(user_id, user_name, status, date) "
+        query = (f"INSERT INTO datausers(id, name, status, date_start) "
                  f"VALUES({user_id}, '{user_name}', 'member', '{date}')"
-                 f"ON CONFLICT (user_id) DO UPDATE SET user_name = '{user_name}', status = 'member'")
+                 f"ON CONFLICT (id) DO UPDATE SET name = '{user_name}', status = 'member'")
         await self.connector.execute(query)
 
     async def update_status(self, status, user_id):  # обновление статуса
-        query = f"UPDATE datausers SET status = '{status}' WHERE user_id = {user_id}"
+        query = f"UPDATE datausers SET status = '{status}' WHERE id = {user_id}"
         await self.connector.execute(query)
 
     async def select_member(self, status) -> list:  # получение списка пользователей с конкретным статусом
-        query = f"SELECT user_id FROM datausers WHERE status  = '{status}'"
+        query = f"SELECT id FROM datausers WHERE status  = '{status}'"
         return await self.connector.fetch(query)
 
     async def update_default_status(self):  # возвращает всем пользователям статус default
