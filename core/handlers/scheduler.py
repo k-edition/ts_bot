@@ -17,21 +17,21 @@ async def remember(bot: Bot, chat_id: int, request: Request):
 
         for user in users_member:
             try:
-                not_subscription = await check_subscription(bot, user['user_id'])
+                not_subscription = await check_subscription(bot, user['id'])
                 not_subs_keyboard = await get_keyboard(not_subscription)
 
-                await bot.send_message(user['user_id'], f"Уже СЕГОДНЯ ты можешь получить БЕСПЛАТНЫЕ материалы.\n"
+                await bot.send_message(user['id'], f"Уже СЕГОДНЯ ты можешь получить БЕСПЛАТНЫЕ материалы.\n"
                                        f"\n"
                                        f"До рассылки осталось два часа! Успей подписаться на каналы.\n"
                                        f"\u2705 Не забудь нажать кнопку ГОТОВО",
                                        reply_markup=not_subs_keyboard)
 
             except TelegramForbiddenError as e:
-                logger.error(f"{user['user_id']} has blocked our bot:  {e}")
-                await request.update_status('blocked', user['user_id'])
+                logger.error(f"{user['id']} has blocked our bot:  {e}")
+                await request.update_status('blocked', user['id'])
 
             except Exception as e:
-                logger.error(f"Strange things to remember for {user['user_id']}: {e}")
+                logger.error(f"Strange things to remember for {user['id']}: {e}")
 
     except Exception as e:
         logger.critical(f"Epic fail for remember: {e}", exc_info=True)
@@ -46,19 +46,19 @@ async def delivery(bot: Bot, chat_id: int, request: Request):
 
         for user in users_ready:
             try:
-                not_subscription = await check_subscription(bot, user['user_id'])
+                not_subscription = await check_subscription(bot, user['id'])
                 if len(not_subscription) == 0:
-                    await bot.send_message(user['user_id'], f"Привет, спасибо за участие в рассылке!\n"
+                    await bot.send_message(user['id'], f"Привет, спасибо за участие в рассылке!\n"
                                                             f"Материалы можно скачать по этой ссылке:\n{data.link}")
                 else:
-                    await bot.send_message(user['user_id'], f"Ты не подписан на всех организаторов")
+                    await bot.send_message(user['id'], f"Ты не подписан на всех организаторов")
 
             except TelegramForbiddenError as e:
-                logger.error(f"{user['user_id']} has blocked our bot:  {e}")
-                await request.update_status('blocked', user['user_id'])
+                logger.error(f"{user['id']} has blocked our bot:  {e}")
+                await request.update_status('blocked', user['id'])
 
             except Exception as e:
-                logger.error(f"Strange things to delivery for {user['user_id']}: {e} ")
+                logger.error(f"Strange things to delivery for {user['id']}: {e} ")
 
         await request.update_default_status()
 
