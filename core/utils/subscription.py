@@ -37,4 +37,3 @@ async def get_keyboard(not_subscription):  # создание динамичес
                                  callback_data='ready1')
         ])
     return InlineKeyboardMarkup(inline_keyboard=buttons)
-
