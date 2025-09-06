@@ -42,7 +42,7 @@ async def start():
 
     @dp.shutdown()  # регистрация функции, которая вызывается при остановке бота
     async def on_shutdown():
-        await admin.stop_bot(bot)
+        await admin.stop_bot(bot, scheduler_request)
 
     try:
         # удаляет все обновления, которые произошли после последнего завершения бота

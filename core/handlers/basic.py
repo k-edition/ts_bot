@@ -33,7 +33,7 @@ async def get_start(message: Message, request: Request):  # ответ на ко
 
 
 @router.message(Command('help'))
-async def get_start(message: Message):  # ответ на команду /help
+async def get_help(message: Message):  # ответ на команду /help
     try:
         await message.answer(f"Если нужна помощь, то обращайся к {settings.bots.profile}")
         logger.info(f"{message.from_user.id} press /help")
@@ -50,7 +50,7 @@ async def click_button(call: CallbackQuery, bot: Bot, request: Request):
 
         if len(not_subscription) == 0:
             await request.update_status('ready', call.from_user.id)
-            await call.message.answer('Молодец, жди подарок')
+            await call.message.answer('Молодец, жди подарок!')
             await call.answer()  # чтобы на кнопке не горели часики
             logger.info(f"{call.from_user.id} subscription True")
         else:
@@ -59,7 +59,7 @@ async def click_button(call: CallbackQuery, bot: Bot, request: Request):
                                       f" ГОТОВО",
                                       reply_markup=not_subs_keyboard)
             await call.answer()  # чтобы на кнопке не горели часики
-            logger.info(f"{call.from_user.id} subscription Faulse")
+            logger.info(f"{call.from_user.id} subscription False")
 
     except Exception as e:
         logger.error(f"Error READY_button: {e}")
