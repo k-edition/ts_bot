@@ -56,6 +56,10 @@ async def remember(bot: Bot, chat_id: int, request: Request):
                                                             reply_markup=ready_keyboard)
                     logger.info(f"User {user['id']} has not pressed button Ready")
 
+            except TelegramForbiddenError as e:
+                logger.error(f"{user['id']} has blocked our bot:  {e}")
+                await request.update_status('blocked', user['id'])
+
             except Exception as e:
                 logger.error(f"Strange things to remember for {user['id']}: {e}")
 
