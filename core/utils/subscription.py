@@ -8,7 +8,7 @@ logger = logging.getLogger(__name__)
 
 async def check_status(chat_member: ChatMember) -> bool:  # проверка статуса пользователя на канале
     logger.info(f"{chat_member.status}")
-    return chat_member.status in ['member', 'creator', 'administrator']
+    return chat_member.status in ['member', 'creator', 'administrator', 'restricted']
 
 
 async def check_subscription(bot, user_id) -> list[str]:  # получение списка каналов без подписки
